@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f75d19b3-97c4-40d0-b788-8a7fc8a74331" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Architecture/Floor_400x400.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StarterContent/Materials/M_AssetPlatform.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StarterContent/Materials/M_AssetPlatform.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NetworkGame.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/NetworkGame.uproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.NetworkGame.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.NetworkGame.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/NetworkGame/NetworkGameCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/NetworkGame/NetworkGameCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/NetworkGame/NetworkGameProjectile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/NetworkGame/NetworkGameProjectile.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +103,8 @@
       <option name="presentableId" value="Default" />
       <updated>1669185281594</updated>
       <workItem from="1669185339022" duration="2010000" />
-      <workItem from="1669188864011" duration="1464000" />
+      <workItem from="1669188864011" duration="1774000" />
+      <workItem from="1669247664403" duration="2390000" />
     </task>
     <servers />
   </component>

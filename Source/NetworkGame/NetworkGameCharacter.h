@@ -68,6 +68,25 @@ protected:
 
 	void OnHealthUpdate();
 
+	UPROPERTY(EditDefaultsOnly, Category="Gameplay|Projectile")
+	TSubclassOf<class ANetworkGameProjectile> ProjectileClass;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Gameplay")
+	float FireRate;
+
+	bool bIsFiringWeapon;
+
+	UFUNCTION(BlueprintCallable, Category="Gameplay")
+	void StartFire();
+
+	UFUNCTION(BlueprintCallable, Category="Gameplay")
+	void StopFire();
+
+	UFUNCTION(Server, Reliable)
+	void HandleFire();
+
+	FTimerHandle FiringTimer;
+
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

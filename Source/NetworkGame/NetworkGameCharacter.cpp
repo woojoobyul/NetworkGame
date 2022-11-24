@@ -9,13 +9,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "Engine/Engine.h"
-#include "Components/ShapeComponent.h"
-#include "Components/StaticMeshComponent.h"
-#include "GameFramework/ProjectileMovementComponent.h"
-#include "GameFramework/DamageType.h"
-#include "Particles/ParticleSystem.h"
-#include "Kismet/GameplayStatics.h"
-#include "UObject/ConstructorHelpers.h"
+#include "NetworkGameProjectile.h"
+
 
 //////////////////////////////////////////////////////////////////////////
 // ANetworkGameCharacter
@@ -61,6 +56,10 @@ ANetworkGameCharacter::ANetworkGameCharacter()
 
 	MaxHealth = 100.0f;
 	CurrentHealth = MaxHealth;
+
+	ProjectileClass = ANetworkGameProjectile::StaticClass();
+	FireRate = 0.25f;
+	bIsFiringWeapon = false;
 }
 
 
@@ -88,6 +87,8 @@ void ANetworkGameCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	// handle touch devices
 	PlayerInputComponent->BindTouch(IE_Pressed, this, &ANetworkGameCharacter::TouchStarted);
 	PlayerInputComponent->BindTouch(IE_Released, this, &ANetworkGameCharacter::TouchStopped);
+
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ANetworkGameCharacter::StartFire);
 }
 
 void ANetworkGameCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
@@ -174,6 +175,7 @@ void ANetworkGameCharacter::OnHealthUpdate()
 	}
 }
 
+
 void ANetworkGameCharacter::SetCurrentHealth(float healthValue)
 {
 	if (GetLocalRole() == ROLE_Authority)
@@ -188,4 +190,32 @@ float ANetworkGameCharacter::TakeDamage(float DamageTaken, struct FDamageEvent c
 	float damageApplied = CurrentHealth - DamageTaken;
 	SetCurrentHealth(damageApplied);
 	return damageApplied;
+}
+
+void ANetworkGameCharacter::StartFire()
+{
+	if(!bIsFiringWeapon)
+	{
+		bIsFiringWeapon = true;
+		UWorld* World = GetWorld();
+		World->GetTimerManager().SetTimer(FiringTimer, this, &ANetworkGameCharacter::StopFire, FireRate, false);
+		HandleFire();
+	}
+}
+
+void ANetworkGameCharacter::StopFire()
+{
+	bIsFiringWeapon = false;
+}
+
+void ANetworkGameCharacter::HandleFire_Implementation()
+{
+	FVector spawnLocation = GetActorLocation() + (GetActorRotation().Vector() * 100.f) + (GetActorUpVector() * 50.f);
+	FRotator spawnRotation = GetActorRotation();
+
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Instigator = GetInstigator();
+	SpawnParameters.Owner = this;
+
+	ANetworkGameProjectile* spawnProjectile = GetWorld()->SpawnActor<ANetworkGameProjectile>(spawnLocation, spawnRotation, SpawnParameters);
 }
